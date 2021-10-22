@@ -1,8 +1,9 @@
 import random
+import Field
 
 class Main():
   def __init__(self):
-    # self.ba = field()
+    self.ba = Field()
     self.currentTurn = 0
     self.deck = []
     self.generateDeck()
