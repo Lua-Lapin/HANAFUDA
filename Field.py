@@ -19,6 +19,9 @@ class Field():
         output.extend(duplicate)
     return output
 
+  def getList(self):
+    return self.filedCards
+
   def test(self):
     self.add("5a")
     self.add("1b")

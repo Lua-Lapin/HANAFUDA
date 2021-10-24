@@ -2,6 +2,7 @@ class Player():
   def __init__(self):
     self.hands = []
     self.ticket = []
+    self.yakuList = []
 
   def addHand(self,card):
     self.hands.append(card)
