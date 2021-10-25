@@ -14,9 +14,12 @@ class Field():
     checkCard = sorted(self.filedCards)
     output = []
     for i in range(12):
-      duplicate = [s for s in checkCard if str(i) in s]
+      duplicate = [s for s in checkCard if str(i+1) in s]
+      print(duplicate)
       if(len(duplicate) >= 2):
         output.extend(duplicate)
+      duplicate.clear()
+    print()
     return output
 
   def getList(self):

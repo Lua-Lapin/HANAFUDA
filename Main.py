@@ -1,15 +1,15 @@
 import random
-import Field 
-import Player
-import Enemy
+from Field import Field 
+from Player import Player
+from Enemy import Enemy
 
 class Main():
   def __init__(self):
-    self.ba = Field.Field()
+    self.ba = Field()
     self.currentTurn = 0
     self.deck = []
-    self.player = Player.Player()
-    self.enemy = Enemy.Enemy()
+    self.player = Player()
+    self.enemy = Enemy()
 
     self.generateDeck()
     self.shuffle()
@@ -17,7 +17,10 @@ class Main():
     self.distribute()
 
   def mainLoop(self):
-    input("出すカードを選択してください:"+self.player.getHandList())
+    print("出すカードを選択してください:",self.player.getHandList())
+    card = input()
+    self.ba.add(card)
+    print(self.ba.add(self.deck.pop(0)))
     pass
 
   def generateDeck(self):
