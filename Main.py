@@ -17,18 +17,36 @@ class Main():
     self.distribute()
 
   def mainLoop(self):
-    print("出すカードを選択してください:",self.player.getHandList())
-    card = input()
-    self.ba.add(card)
-    print(self.ba.add(self.deck.pop(0)))
-    pass
+    # プレーヤー側
+    if self.currentTurn == 0:
+      print("場のカード:",self.ba.getList())
+      print("出すカードを選択してください:",self.player.getHand())
+      card = input()
+      self.ba.add(card)
+      self.ba.add(self.deck.pop(0))
+      self.player.playCard(card)
+
+      self.ba.judgeCard(card)
+      cards = self.ba.judgeCard(card)
+      self.ba.remove(cards)
+      self.player.addTicket(cards)
+
+      # 役確認
+
+      self.currentTurn += 1
+      print(cards)
+      print(self.player.getHand(),"\n",self.player.getTicket(),"\n",self.ba.getList())
+    # CPU側
+    else:
+      pass
 
   def generateDeck(self):
     for i in range(12):
-      self.deck.append(str(i+1)+"a")
-      self.deck.append(str(i+1)+"b")
-      self.deck.append(str(i+1)+"c")
-      self.deck.append(str(i+1)+"d")
+      if i == 9:j = "A"
+      elif i == 10:j = "B"
+      elif i == 11:j = "C"
+      else: j = str(i+1)
+      self.deck.extend([j+"a",j+"b",j+"c",j+"d"])
 
   def shuffle(self):
       random.shuffle(self.deck)
@@ -50,5 +68,5 @@ class Main():
 
 if __name__ == '__main__':
   main = Main()
-  main.test()
+  # main.test()
   main.mainLoop()

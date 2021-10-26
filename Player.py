@@ -1,22 +1,23 @@
 class Player():
   def __init__(self):
-    self.hands = []
+    self.hand = []
     self.ticket = []
     self.yakuList = []
 
   def addHand(self,card):
-    self.hands.append(card)
+    self.hand.append(card)
+    self.hand.sort()
 
-  def getTicket(self,card):
-    self.ticket.append(card)
+  def addTicket(self,cards):
+    self.ticket.extend(cards)
 
   def playCard(self,card):
-    self.hands.remove(card)
+    self.hand.remove(card)
 
-  def getHandList(self):
-    return self.hands
+  def getHand(self):
+    return self.hand
 
-  def getTicketList(self):
+  def getTicket(self):
     return self.ticket
 
   def checkPoint(self):

@@ -4,23 +4,32 @@ class Field():
   
   def add(self,card):
     self.filedCards.append(card)
-    return self.judge()
+    self.filedCards.sort()
+    # return self.judge()
 
   def remove(self,cards):
     for card in cards:
       self.filedCards.remove(card)
 
   def judge(self):
-    checkCard = sorted(self.filedCards)
     output = []
+
     for i in range(12):
-      duplicate = [s for s in checkCard if str(i+1) in s]
-      print(duplicate)
+      if i == 9:j = "A"
+      elif i == 10:j = "B"
+      elif i == 11:j = "C"
+      else: j = str(i+1)
+
+      duplicate = [s for s in self.filedCards if j in s]
+      # print(j,duplicate)
       if(len(duplicate) >= 2):
         output.extend(duplicate)
       duplicate.clear()
-    print()
+    # print()
     return output
+
+  def judgeCard(self,card):
+    return [s for s in self.filedCards if card[0] in s]
 
   def getList(self):
     return self.filedCards
