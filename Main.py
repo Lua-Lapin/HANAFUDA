@@ -31,6 +31,7 @@ class Main():
       self.ba.remove(cards)
       self.player.addTicket(cards)
 
+
       # 役確認
 
       self.currentTurn += 1
