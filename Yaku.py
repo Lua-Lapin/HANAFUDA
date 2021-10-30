@@ -1,24 +1,32 @@
+from typing import Counter
+
+
 class Yaku():
   def __init__(self):
     pass
 
+  def countYaku(self,cards):
+    output = []
+    output.append(len([s for s in cards if ("1a" in s)or("3a" in s)or("8a" in s)or("Ba" in s)or("Ca" in s)]))
+    output.append(len([s for s in cards if ("3a" in s)or("8a" in s)or("Aa" in s)]))
+    output.append(len([s for s in cards if ("1b" in s)or("2b" in s)or("3b" in s)]))
+    output.append(len([s for s in cards if ("6b" in s)or("9b" in s)or("Ab" in s)]))
+    output.append(len([s for s in cards if ("4b" in s)or("5b" in s)or("7b" in s)]))
+    return output
+
   def check(self,cards):
     output = []
-    countLig=len([s for s in cards if ("1a" in s)or("3a" in s)or("8a" in s)or("Ba" in s)or("Ca" in s)])
-    countBat=len([s for s in cards if ("3a" in s)or("8a" in s)or("Aa" in s)])
-    countRed=len([s for s in cards if ("1b" in s)or("2b" in s)or("3b" in s)])
-    countBlu=len([s for s in cards if ("6b" in s)or("9b" in s)or("Ab" in s)])
-    countTan=len([s for s in cards if ("4b" in s)or("5b" in s)or("7b" in s)])
-    print(countLig,countBat,countBlu,countRed,countTan)
+    count = self.countYaku(cards)
+    print(count)
 
-    if countLig == 5: output.append("五光")
-    elif countLig == 4 and "Ba" in cards: output.append("雨四光")
-    elif countLig == 4: output.append("四光")
-    elif countLig == 3 and "Ba" not in cards: output.append("三光")
+    if count[0] == 5: output.append("五光")
+    elif count[0] == 4 and "Ba" in cards: output.append("雨四光")
+    elif count[0] == 4: output.append("四光")
+    elif count[0] == 3 and "Ba" not in cards: output.append("三光")
   
-    if countBat == 3: output.append("猪鹿蝶")
-    if countRed == 3: output.append("赤短")
-    if countBlu == 3: output.append("青短")
+    if count[1] == 3: output.append("猪鹿蝶")
+    if count[2] == 3: output.append("赤短")
+    if count[3] == 3: output.append("青短")
     print(output)
     return output
   
@@ -33,8 +41,24 @@ class Yaku():
     if "青短" in yakulist: point+=0
     return point
 
+    def checkAlive(self,ticket):
+      count = self.countYaku(ticket)
+
+      if count[0] == 3 or count[0] == 2 and "Ba" not in cards: output.append("三光")
+      elif count[0] == 2: output.append("四光")
+      elif count[0] == 2 or count[0] >= 1 and "Ba" in cards: output.append("雨四光")
+      elif count[0] == 1: output.append("五光")
+    
+      if count[1] >= 1: output.append("猪鹿蝶")
+      if count[2] >= 1: output.append("赤短")
+      if count[3] >= 1: output.append("青短")
+      print(output)
+      return output
+
   def test(self):
-    self.check(["1a","2a","3a","Aa","8a","Ca","Ba"])
+    cards = ["1a","2a","3a","Aa","8a","Ca","Ba"]
+    self.check(cards)
+    self.countYaku(cards)
 
 if __name__ == '__main__':
   yaku = Yaku()
