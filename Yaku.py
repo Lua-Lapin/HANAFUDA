@@ -1,6 +1,3 @@
-from typing import Counter
-
-
 class Yaku():
   def __init__(self):
     pass
@@ -41,19 +38,19 @@ class Yaku():
     if "青短" in yakulist: point+=0
     return point
 
-    def checkAlive(self,ticket):
-      count = self.countYaku(ticket)
+    # def checkAlive(self,ticket):
+    #   count = self.countYaku(ticket)
 
-      if count[0] == 3 or count[0] == 2 and "Ba" not in cards: output.append("三光")
-      elif count[0] == 2: output.append("四光")
-      elif count[0] == 2 or count[0] >= 1 and "Ba" in cards: output.append("雨四光")
-      elif count[0] == 1: output.append("五光")
+    #   if count[0] == 3 or count[0] == 2 and "Ba" not in cards: output.append("三光")
+    #   elif count[0] == 2: output.append("四光")
+    #   elif count[0] == 2 or count[0] >= 1 and "Ba" in cards: output.append("雨四光")
+    #   elif count[0] == 1: output.append("五光")
     
-      if count[1] >= 1: output.append("猪鹿蝶")
-      if count[2] >= 1: output.append("赤短")
-      if count[3] >= 1: output.append("青短")
-      print(output)
-      return output
+    #   if count[1] >= 1: output.append("猪鹿蝶")
+    #   if count[2] >= 1: output.append("赤短")
+    #   if count[3] >= 1: output.append("青短")
+    #   print(output)
+      # return output
 
   def test(self):
     cards = ["1a","2a","3a","Aa","8a","Ca","Ba"]
