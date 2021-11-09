@@ -1,7 +1,9 @@
 import random
+from typing import Counter
 from Field import Field 
 from Player import Player
 from Enemy import Enemy
+from Yaku import Yaku
 
 class Main():
   def __init__(self):
@@ -10,6 +12,7 @@ class Main():
     self.deck = []
     self.player = Player()
     self.enemy = Enemy()
+    self.yaku = Yaku()
 
     self.generateDeck()
     self.shuffle()
@@ -18,28 +21,86 @@ class Main():
 
   def mainLoop(self):
     # プレーヤー側
-    if self.currentTurn == 0:
-      print("場のカード:",self.ba.getList())
-      print("出すカードを選択してください:",self.player.getHand())
-      card = input()
-      self.ba.add(card)
-      self.ba.add(self.deck.pop(0))
-      self.player.playCard(card)
+    while(True):
+      if self.currentTurn == 0:
+        # カード出す 
+        card = ""
+        print("場のカード:",self.ba.getList())
+        while card not in self.player.getHand():
+          print("出すカードを選択してください:",self.player.getHand())
+          card = input()
+        self.ba.add(card)
+        popcard = self.ba.add(self.deck.pop(0))
+        self.player.playCard(card)
 
-      self.ba.judgeCard(card)
-      cards = self.ba.judgeCard(card)
-      self.ba.remove(cards)
-      self.player.addTicket(cards)
+        # カード取る
+        duplHand = self.ba.judgeCard(card)
+        duplDeck = self.ba.judgeCard(popcard)
+        if len(duplHand)%2 == 0:
+          self.ba.remove(duplHand)
+          self.player.addTicket(duplHand)
+        elif len(duplHand) == 3:
+          self.ba.remove(duplHand[:1])
+          self.player.addTicket(duplHand[:1])
+        if len(duplDeck)%2 == 0:
+          self.ba.remove(duplDeck)
+          self.player.addTicket(duplDeck)
+        elif len(duplDeck) == 3:
+          print("main,49:dupdeck",duplDeck)
+          self.ba.remove(duplDeck[:1])
+          self.player.addTicket(duplDeck[:1])
 
+        # 役の判定
+        judge = self.yaku.check(self.enemy.getTicket())
+        if len(judge) != 0:
+          self.enemy.addYaku(judge)
+          print("役が成立しました：",judge)
+          print("ゲームを終了します")
+          return None
 
-      # 役確認
+        print("P",self.player.getHand(),"\n",self.player.getTicket(),"\n",self.ba.getList(),"\n")
+        self.currentTurn = 1
 
-      self.currentTurn += 1
-      print(cards)
-      print(self.player.getHand(),"\n",self.player.getTicket(),"\n",self.ba.getList())
-    # CPU側
-    else:
-      pass
+      else:
+        # カード出す
+        card = self.enemy.random()
+        self.ba.add(card)
+        popcard = self.ba.add(self.deck.pop(0))
+        self.enemy.playCard(card)
+        
+        # カード取る
+        duplHand = self.ba.judgeCard(card)
+        duplDeck = self.ba.judgeCard(popcard)
+        if len(duplHand)%2 == 0:
+          self.ba.remove(duplHand)
+          self.enemy.addTicket(duplHand)
+        elif len(duplHand) == 3:
+          self.ba.remove(duplHand[:1])
+          self.enemy.addTicket(duplHand[:1])
+        if len(duplDeck)%2 == 0:
+          self.ba.remove(duplDeck)
+          self.enemy.addTicket(duplDeck)
+        elif len(duplDeck) == 3:
+          self.ba.remove(duplDeck[:1])
+          self.enemy.addTicket(duplDeck[:1])
+        
+        # 役の判定
+        judge = self.yaku.check(self.enemy.getTicket())
+        if len(judge) != 0:
+          self.enemy.addYaku(judge)
+          print("役が成立しました：",judge)
+          print("ゲームを終了します")
+          return None
+
+        print("E",self.enemy.getHand(),"\n",self.enemy.getTicket(),"\n",self.ba.getList(),"\n")
+        self.currentTurn = 0
+      
+      # 手がなくなった時点で終わり
+      if len(self.enemy.getHand()) == 0:
+        return None
+
+      
+
 
   def generateDeck(self):
     for i in range(12):

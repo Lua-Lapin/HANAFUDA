@@ -6,6 +6,7 @@ class Field():
     self.filedCards.append(card)
     self.filedCards.sort()
     # return self.judge()
+    return card
 
   def remove(self,cards):
     for card in cards:

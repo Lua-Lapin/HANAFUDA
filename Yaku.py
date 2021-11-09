@@ -14,7 +14,7 @@ class Yaku():
   def check(self,cards):
     output = []
     count = self.countYaku(cards)
-    print(count)
+    # print(count)
 
     if count[0] == 5: output.append("五光")
     elif count[0] == 4 and "Ba" in cards: output.append("雨四光")
@@ -24,7 +24,7 @@ class Yaku():
     if count[1] == 3: output.append("猪鹿蝶")
     if count[2] == 3: output.append("赤短")
     if count[3] == 3: output.append("青短")
-    print(output)
+    # print(output)
     return output
   
   def countPoint(self,yakulist):

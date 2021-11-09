@@ -20,6 +20,9 @@ class Player():
   def getTicket(self):
     return self.ticket
 
+  def addYaku(self,yaku):
+    self.yakuList.append(yaku)
+
   def checkPoint(self):
     # 役の判定
     pass
