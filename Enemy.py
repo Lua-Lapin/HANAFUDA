@@ -7,7 +7,6 @@ class Enemy(Player):
     priority = [] # 役の優先順位作って
 
   def search(self):
-    
     pass
 
   # ランダムに選んでカードを返す

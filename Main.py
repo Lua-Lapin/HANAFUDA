@@ -84,47 +84,20 @@ class Main():
     player.playCard(card)
     return [card,popcard]
 
-  def test(self):
-    self.deck.append("1b")
-    self.ba.add("1a")
-    self.player.addHand("1c")
-    print("P",self.player.getHand(),"\n",self.player.getTicket(),"\n",self.ba.getList(),"\n")
-    self.player.playCard("1c")
-    self.ba.add("1c")
-    self.ba.add("1b")
-    print("P",self.player.getHand(),"\n",self.player.getTicket(),"\n",self.ba.getList(),"\n")
-    duplHand = self.ba.judgeCard("1c")
-    duplDeck = self.ba.judgeCard("1b")
-    print(duplDeck,duplHand)
-    if len(duplHand)%2 == 0:
-      self.ba.remove(duplHand)
-      self.player.addTicket(duplHand)
-    elif len(duplHand) == 3:
-      self.ba.remove(duplHand[:2])
-      self.player.addTicket(duplHand[:2])
-    if len(duplDeck)%2 == 0:
-      self.ba.remove(duplDeck)
-      self.player.addTicket(duplDeck)
-    elif len(duplDeck) == 3 and duplHand != duplDeck:
-      print("main,49:dupdeck",duplDeck)
-      self.ba.remove(duplDeck[:1])
-      self.player.addTicket(duplDeck[:1])
-    print("P",self.player.getHand(),"\n",self.player.getTicket(),"\n",self.ba.getList(),"\n")
-
   # ここに書く
 def mainloop():
-  player = Player()
+  player = Player()#ここをplayer = Agent()にする
   enemy = Enemy()
   main = Main(player,enemy)
   judge=[]
   currentTurn = 0
   while True:
     pop=""
+    # ここに書く
     if currentTurn == 0:
       pop = main.playTest(player)
       main.catch(player,pop[0],pop[1])
       judge = main.isEnd(player)
-      print(judge)
       if judge is not None:
         print("役が成立しました：",judge)
         print("ゲームを終了します")
@@ -143,7 +116,7 @@ def mainloop():
       if len(enemy.getHand()) == 0:
         print("ゲームを終了します")
         return ["end"]
-      print("P",enemy.getHand(),"\n",enemy.getTicket(),"\n")
+      print("E",enemy.getHand(),"\n",enemy.getTicket(),"\n")
       currentTurn = 0
 
 if __name__ == '__main__':

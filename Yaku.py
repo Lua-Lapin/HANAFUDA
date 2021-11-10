@@ -39,18 +39,18 @@ class Yaku():
   
   def countPoint(self,yakulist):
     point = 0
-    if "五光" in yakulist: point+=0
-    if "雨四光" in yakulist: point+=0
-    if "四光" in yakulist: point+=0
-    if "三光" in yakulist: point+=0
-    if "猪鹿蝶" in yakulist: point+=0
-    if "赤短" in yakulist: point+=0
-    if "青短" in yakulist: point+=0
-    if "短" in yakulist: point+=0
-    if "花見で一杯" in yakulist: point+=0
-    if "月見で一杯" in yakulist: point+=0
-    if "たね" in yakulist: point+=0
-    if "かす" in yakulist: point+=0
+    if "五光" in yakulist: point+=10
+    if "雨四光" in yakulist: point+=8
+    if "四光" in yakulist: point+=7
+    if "三光" in yakulist: point+=5
+    if "猪鹿蝶" in yakulist: point+=5
+    if "赤短" in yakulist: point+=5
+    if "青短" in yakulist: point+=5
+    if "短" in yakulist: point+=1
+    if "花見で一杯" in yakulist: point+=5
+    if "月見で一杯" in yakulist: point+=5
+    if "たね" in yakulist: point+=1
+    if "かす" in yakulist: point+=1
     return point
 
     # def checkAlive(self,ticket):
