@@ -8,7 +8,12 @@ class Yaku():
     output.append(len([s for s in cards if ("3a" in s)or("8a" in s)or("Aa" in s)]))
     output.append(len([s for s in cards if ("1b" in s)or("2b" in s)or("3b" in s)]))
     output.append(len([s for s in cards if ("6b" in s)or("9b" in s)or("Ab" in s)]))
-    output.append(len([s for s in cards if ("4b" in s)or("5b" in s)or("7b" in s)]))
+    output.append(len([s for s in cards if ("4b" in s)or("5b" in s)or("7b" in s)or("Bc" in s)]))
+    output.append(len([s for s in cards if ("8a" in s)or("9a" in s)]))
+    output.append(len([s for s in cards if ("3a" in s)or("9a" in s)]))
+    output.append(len([s for s in cards if ("2a" in s)or("4a" in s)or("5a" in s)or("6a" in s)or("7a" in s)or("9a" in s)or("Aa" in s)or("Bb" in s)]))
+    output.append(len([s for s in cards if ("d" in s)or("c" in s)and("B" not in s)or("12b" in s)]))
+
     return output
 
   def check(self,cards):
@@ -24,6 +29,11 @@ class Yaku():
     if count[1] == 3: output.append("猪鹿蝶")
     if count[2] == 3: output.append("赤短")
     if count[3] == 3: output.append("青短")
+    if count[4] + count[3] + count[2] >= 5: output.append("短")
+    if count[5] == 3: output.append("花見で一杯")
+    if count[6] == 3: output.append("月見で一杯")
+    if count[7] >= 5: output.append("たね")
+    if count[8] >= 10: output.append("かす")
     # print(output)
     return output
   
@@ -36,6 +46,11 @@ class Yaku():
     if "猪鹿蝶" in yakulist: point+=0
     if "赤短" in yakulist: point+=0
     if "青短" in yakulist: point+=0
+    if "短" in yakulist: point+=0
+    if "花見で一杯" in yakulist: point+=0
+    if "月見で一杯" in yakulist: point+=0
+    if "たね" in yakulist: point+=0
+    if "かす" in yakulist: point+=0
     return point
 
     # def checkAlive(self,ticket):

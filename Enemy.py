@@ -12,6 +12,7 @@ class Enemy(Player):
 
   # ランダムに選んでカードを返す
   def random(self):
+    # print(len(self.getHand()))
     a = random.randrange(len(self.getHand()))
     b = self.getHand()
     return b[a]
