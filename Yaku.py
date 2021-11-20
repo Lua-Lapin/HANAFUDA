@@ -12,7 +12,8 @@ class Yaku():
     output.append(len([s for s in cards if ("8a" in s)or("9a" in s)]))
     output.append(len([s for s in cards if ("3a" in s)or("9a" in s)]))
     output.append(len([s for s in cards if ("2a" in s)or("4a" in s)or("5a" in s)or("6a" in s)or("7a" in s)or("9a" in s)or("Aa" in s)or("Bb" in s)]))
-    output.append(len([s for s in cards if ("d" in s)or("c" in s)and("B" not in s)or("12b" in s)]))
+    output.append(len([s for s in cards if (("d" in s)or("c" in s)or("Cb" in s))and("Bd" not in s)]))
+    output[4]+=output[2]+output[3]
 
     return output
 
@@ -29,7 +30,7 @@ class Yaku():
     if count[1] == 3: output.append("猪鹿蝶")
     if count[2] == 3: output.append("赤短")
     if count[3] == 3: output.append("青短")
-    if count[4] + count[3] + count[2] >= 5: output.append("短")
+    if count[4] >= 5: output.append("短")
     if count[5] == 2: output.append("花見で一杯")
     if count[6] == 2: output.append("月見で一杯")
     if count[7] >= 5: output.append("たね")

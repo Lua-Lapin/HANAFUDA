@@ -56,7 +56,9 @@ class Main():
     elif len(duplHand) == 3:
       self.ba.remove(duplHand[:2])
       player.addTicket(duplHand[:2])
-    if len(duplDeck)%2 == 0:
+    if len(duplDeck)%2 == 0 and duplHand != duplDeck:
+      # print(duplHand)
+      # print(duplDeck)
       self.ba.remove(duplDeck)
       player.addTicket(duplDeck)
     elif len(duplDeck) == 3 and duplHand != duplDeck:
@@ -69,7 +71,7 @@ class Main():
     if len(judge) != 0:
       player.addYaku(judge)
       print("役が成立しました：",judge)
-      print("ゲームを終了します")
+      print("ゲームを終了します",player)
       return judge
 
   def playTest(self,player):
