@@ -85,6 +85,43 @@ class Main():
     popcard = self.ba.add(self.deck.pop(0))
     player.playCard(card)
     return [card,popcard]
+    
+def test():
+  player = Player()#ここをplayer = Agent()にする
+  enemy = Enemy()
+  main = Main(player,enemy)
+  judge=[]
+  currentTurn = 0
+  while True:
+    pop=""
+    # ここに書く
+    if currentTurn == 0:
+      pop = main.playTest(player)
+      main.catch(player,pop[0],pop[1])
+      judge = main.isEnd(player)
+      if judge is not None:
+        print("役が成立しました：",judge)
+        print("ゲームを終了します")
+        return judge
+      print("P",player.getHand(),"\n",player.getTicket(),"\n")
+      currentTurn = 1
+      
+    else:
+      a=enemy.searchAct(enemy.getTicket(),main.ba.getList())
+      print("a:",a)
+      pop = main.play(enemy,enemy.random() if a!="" else a)
+      main.catch(enemy,pop[0],pop[1])
+      judge = main.isEnd(enemy)
+      if judge is not None:
+        print("役が成立しました：",judge)
+        print("ゲームを終了します")
+        return judge
+      if len(enemy.getHand()) == 0:
+        print("ゲームを終了します")
+        return ["end"]
+      print("E",enemy.getHand(),"\n",enemy.getTicket(),"\n")
+      currentTurn = 0
+
 
   # ここに書く
 def mainloop():
@@ -123,8 +160,10 @@ def mainloop():
 
 if __name__ == '__main__':
   yaku = Yaku()
-  judge = mainloop()
+  judge = test()
+  # judge = mainloop()
   if "end" not in judge:
     yaku.countPoint(judge)
+
 
 
