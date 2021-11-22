@@ -1,5 +1,7 @@
 import random
+import time
 from typing import Counter
+from Agent import Agent
 from Field import Field 
 from Player import Player
 from Enemy import Enemy
@@ -70,8 +72,8 @@ class Main():
     judge = self.yaku.check(player.getTicket())
     if len(judge) != 0:
       player.addYaku(judge)
-      print("役が成立しました：",judge)
-      print("ゲームを終了します",player)
+      # print("役が成立しました：",judge)
+      # print("ゲームを終了します",player)
       return judge
 
   def playTest(self,player):
@@ -85,63 +87,31 @@ class Main():
     popcard = self.ba.add(self.deck.pop(0))
     player.playCard(card)
     return [card,popcard]
-    
-def test():
-  player = Player()#ここをplayer = Agent()にする
+
+def mainloop(agent):
+  player = agent
   enemy = Enemy()
   main = Main(player,enemy)
   judge=[]
   currentTurn = 0
   while True:
     pop=""
-    # ここに書く
     if currentTurn == 0:
-      pop = main.playTest(player)
+      dust,pl=player.search(player.getTicket(),delAct(enemy))
+      dust,en=enemy.search(enemy.getTicket(),delAct(player))
+      # print(dust)
+      ran = random.random()
+      player.action(pl,en,0 if ran <= 0.5 else 1)
+      a=player.searchAct(player.getTicket() if ran <= 0.5 else enemy.getTicket(),main.ba.getList())
+      # print("a:",a)
+      pop = main.play(player,player.random() if a!="" else a)
       main.catch(player,pop[0],pop[1])
       judge = main.isEnd(player)
       if judge is not None:
-        print("役が成立しました：",judge)
-        print("ゲームを終了します")
-        return judge
-      print("P",player.getHand(),"\n",player.getTicket(),"\n")
-      currentTurn = 1
-      
-    else:
-      a=enemy.searchAct(enemy.getTicket(),main.ba.getList())
-      print("a:",a)
-      pop = main.play(enemy,enemy.random() if a!="" else a)
-      main.catch(enemy,pop[0],pop[1])
-      judge = main.isEnd(enemy)
-      if judge is not None:
-        print("役が成立しました：",judge)
-        print("ゲームを終了します")
-        return judge
-      if len(enemy.getHand()) == 0:
-        print("ゲームを終了します")
-        return ["end"]
-      print("E",enemy.getHand(),"\n",enemy.getTicket(),"\n")
-      currentTurn = 0
-
-
-  # ここに書く
-def mainloop():
-  player = Player()#ここをplayer = Agent()にする
-  enemy = Enemy()
-  main = Main(player,enemy)
-  judge=[]
-  currentTurn = 0
-  while True:
-    pop=""
-    # ここに書く
-    if currentTurn == 0:
-      pop = main.playTest(player)
-      main.catch(player,pop[0],pop[1])
-      judge = main.isEnd(player)
-      if judge is not None:
-        print("役が成立しました：",judge)
-        print("ゲームを終了します")
-        return judge
-      print("P",player.getHand(),"\n",player.getTicket(),"\n")
+        # print("役が成立しました：",judge)
+        # print(currentTurn,"ゲームを終了します")
+        return [judge,currentTurn]
+      # print("P",player.getHand(),"\n",player.getTicket(),"\n")
       currentTurn = 1
       
     else:
@@ -149,21 +119,66 @@ def mainloop():
       main.catch(enemy,pop[0],pop[1])
       judge = main.isEnd(enemy)
       if judge is not None:
-        print("役が成立しました：",judge)
-        print("ゲームを終了します")
-        return judge
+        # print("役が成立しました：",judge)
+        # print(currentTurn,"ゲームを終了します")
+        return [judge,currentTurn]
       if len(enemy.getHand()) == 0:
-        print("ゲームを終了します")
+        # print(currentTurn,"ゲームを終了します")
         return ["end"]
-      print("E",enemy.getHand(),"\n",enemy.getTicket(),"\n")
+      # print("E",enemy.getHand(),"\n",enemy.getTicket(),"\n")
       currentTurn = 0
 
+def delAct(enemy):
+  ex=[0 for j in range(9)]
+  out=[]
+  # print(enemy.yakul)
+  for i in enemy.getTicket():
+    c=0
+    for j in enemy.yakul:
+      if i in j:
+        ex[c]+=1
+      c+=1
+      # print(c,i,j)
+  if ex[0]>=3:out.append(0)
+  if ex[1]>=1:out.append(1)
+  if ex[2]>=1:out.append(2)
+  if ex[3]>=1:out.append(3)
+  if ex[4]>=5:out.append(4)
+  if ex[5]>=1:out.append(5)
+  if ex[6]>=1:out.append(6)
+  if ex[7]>=3:out.append(7)
+  # print(out)
+  return out
+
 if __name__ == '__main__':
+  start_time = time.time()
   yaku = Yaku()
-  judge = test()
-  # judge = mainloop()
-  if "end" not in judge:
-    yaku.countPoint(judge)
-
-
-
+  alpha=1
+  gamma=1
+  episode=2000
+  agent = Agent(alpha,gamma)
+  win=[0,0]
+  for i in range(episode):
+    judge = mainloop(agent)
+    if "end" not in judge:
+      a = yaku.countPoint(judge[0])
+      # print(judge,a)
+      if judge[1]==1:
+        a*=-1
+        win[1]+=1
+      else:
+        win[0]+=1
+      agent.end(a)
+    else:
+      # print("end")
+      agent.end(0)
+    judge.clear()
+    agent.reset()
+    if i % (episode//10) == 0:
+      print(i)
+  dotime = time.time() - start_time
+  print(agent.stateList,"\n")
+  print(win,win[0]/episode,"%","\n")
+  print(dotime,"sec","\n")
+  # agent.test()
+  # print(agent.stateList)

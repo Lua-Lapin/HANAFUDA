@@ -23,6 +23,7 @@ class Player():
   def addYaku(self,yaku):
     self.yakuList.append(yaku)
 
-  def checkPoint(self):
-    # 役の判定
-    pass
+  def reset(self):
+    self.hand.clear()
+    self.ticket.clear()
+    self.yakuList.clear()

@@ -4,24 +4,23 @@ from Field import Field
 import random
 
 class Enemy(Player):
-  priority = [] # 役の優先順位作って
   yaku = Yaku()
-  yakuList = []
 
   def __init__(self):
     super().__init__()
+    self.yakul = []
     self.create()
 
   def create(self):
-    self.yakuList.append(["1a","3a","8a","Ba","Ca"])
-    self.yakuList.append(["3a","8a","Aa"])
-    self.yakuList.append(["1b","2b","3b"])
-    self.yakuList.append(["6b","9b","Ab"])
-    self.yakuList.append(["4b","5b","7b","Bc","6b","9b","Ab","1b","2b","3b"])
-    self.yakuList.append(["8a","9a"])
-    self.yakuList.append(["3a","9a"])
-    self.yakuList.append(["2a","4a","5a","6a","7a","9a","Aa","Bb"])
-    self.yakuList.append(["other"])
+    self.yakul.append(["1a","3a","8a","Ba","Ca"])
+    self.yakul.append(["3a","8a","Aa"])
+    self.yakul.append(["1b","2b","3b"])
+    self.yakul.append(["6b","9b","Ab"])
+    self.yakul.append(["4b","5b","7b","Bc","6b","9b","Ab","1b","2b","3b"])
+    self.yakul.append(["8a","9a"])
+    self.yakul.append(["3a","9a"])
+    self.yakul.append(["2a","4a","5a","6a","7a","9a","Aa","Bb"])
+    self.yakul.append(["other"])
 
   def search(self,cards,excl=[]):
     count = self.yaku.countYaku(cards)
@@ -47,7 +46,7 @@ class Enemy(Player):
     return minAct,count[minAct[0]]
 
   def searchAct(self,cards,ba):
-    print("cards",cards)
+    # print("cards",cards)
     use=""
     minAct=[]
     wantCard = []
@@ -61,33 +60,32 @@ class Enemy(Player):
           break
         minAct,dust = self.search(cards,excl=ActStack)
         ActStack.extend(minAct)
-        print(ActStack,minAct)
+        # print(ActStack,minAct)
+        # print(self.yakul)
       for i in minAct:
         dup=[]
-        for j in self.yakuList[i]:
+        for j in self.yakul[i]:
           dupH = [s for s in self.getHand() if j[0] in s]
           dupF = [s for s in ba if j[0] in s]
         haveHand.extend(dupH)
         haveField.extend(dupF)
         dupH.clear()
         dupF.clear()
-      # haveHand = list(set(wantCard) & set(self.getHand()))
-      # haveField = list(set(wantCard) & set(ba))
       haveHand = list(set(haveHand))
       haveField = list(set(haveField))
-      print(wantCard,haveHand,haveField)
-      print(self.getHand(),ba)
+      # print(wantCard,haveHand,haveField)
+      # print(self.getHand(),ba)
 
       tmp=""
       for i in minAct:
-        for j in self.yakuList[i]:
+        for j in self.yakul[i]:
           dup.extend(haveHand)
           dup.extend(haveField)
           if len(dup) == 0:
             break
           else:
             tmp = [s for s in dup if j in s]
-      print(list(set(tmp)))
+      # print(list(set(tmp)))
       if len(tmp)!=0:
         if len(list(set(haveHand) & set(tmp))):
           use = tmp.copy()

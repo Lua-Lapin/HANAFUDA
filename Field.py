@@ -44,7 +44,7 @@ class Field():
     print(self.filedCards)
     # self.remove(["1a","2a"])
     # print(self.filedCards)
-    print(self.judge())
+    # print(self.judge())
 
 if __name__ == '__main__':
   field = Field()
